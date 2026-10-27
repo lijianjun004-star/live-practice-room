@@ -1,9 +1,9 @@
 (function () {
   'use strict';
   const $ = id => document.getElementById(id), C = window.BulletCore, E = window.PracticeEngine;
-  const KEY = 'tiny-live-mobile-v2', CORE_CACHE = 'tiny-live-core-v2', VOICE_CACHE = 'tiny-live-voice-v1';
+  const KEY = 'tiny-live-mobile-v2', CORE_CACHE = 'tiny-live-core-v3', VOICE_CACHE = 'tiny-live-voice-v2';
   const CORE_FILES = ['./','index.html','style.css','core.js','engine.js','app.js','manifest.webmanifest','icon.svg','icon-192.png','icon-512.png','voice/model-info.json'];
-  const VOICE_FILES = ['voice/vosk.js','voice/cn.part1.bin','voice/cn.part2.bin','voice/cn.part3.bin'];
+  const VOICE_FILES = ["voice/vosk.js", "voice/cn.part1.bin", "voice/cn.part2.bin", "voice/cn.part3.bin", "voice/cn.part4.bin", "voice/cn.part5.bin", "voice/cn.part6.bin", "voice/cn.part7.bin", "voice/cn.part8.bin", "voice/cn.part9.bin", "voice/cn.part10.bin", "voice/cn.part11.bin"];
   const sample = '小王 | 这款多少钱？\n刚进来，能再讲一下吗？\n和上一款有什么区别？\n什么时候发货？\n小橘子 | 可以近一点看吗？\n有没有适合新手的？\n买回去不合适怎么办？\n主播再讲一下重点';
   let stored = {};
   try { stored = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch (_) {}

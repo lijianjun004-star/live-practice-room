@@ -1,5 +1,5 @@
 'use strict';
-const CORE = 'tiny-live-core-v2', VOICE = 'tiny-live-voice-v1';
+const CORE = 'tiny-live-core-v3', VOICE = 'tiny-live-voice-v2';
 const FILES = ['./','index.html','style.css','core.js','engine.js','app.js','manifest.webmanifest','icon.svg','icon-192.png','icon-512.png','voice/model-info.json'];
 self.addEventListener('install', event => { event.waitUntil((async () => { const cache = await caches.open(CORE); await cache.addAll(FILES.map(file => new URL(file,self.registration.scope).href)); await self.skipWaiting(); })()); });
 self.addEventListener('activate', event => { event.waitUntil((async () => { const names = await caches.keys(); await Promise.all(names.filter(key => key.startsWith('tiny-live-core-') && key !== CORE).map(key => caches.delete(key))); await self.clients.claim(); })()); });
