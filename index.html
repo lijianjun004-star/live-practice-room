@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#f5f3f9"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="description" content="输入自己的弹幕，设置间隔，开始手机练播。支持顺序或随机播放、离线保存和语音触发。">
+  <title>小小练播房 · 自己设置弹幕</title><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icon-192.png"><link rel="icon" href="icon.svg" type="image/svg+xml"><link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="app-header"><a class="brand" href="./"><span class="brand-mark" aria-hidden="true">播</span><span>小小练播房<small>你的弹幕，你来设定。</small></span></a><button id="offlineButton" class="offline-button"><span id="connectionDot"></span><span id="offlineLabel">离线使用</span></button></header>
+    <div class="intro"><span class="eyebrow">开播前，先练一会儿</span><h1>把弹幕，换成你的话术。</h1><p>粘贴内容，设好间隔，就能开始。</p></div>
+    <nav class="mobile-tabs" aria-label="练播页面"><button id="editTab" class="active" aria-pressed="true">① 我的弹幕</button><button id="roomTab" aria-pressed="false">② 练播现场 <span id="tabCount">0</span></button></nav>
+    <main class="workspace" data-panel="edit" id="workspace">
+      <section class="editor card" id="editor" aria-label="自定义弹幕设置">
+        <div class="section-heading"><div><span class="step">01 / 写下互动</span><h2>我的弹幕</h2></div><span id="savedLabel" class="saved-label">自动保存在本机</span></div>
+        <label class="editor-label" for="bulletText">一行一条，想练什么就写什么。</label>
+        <textarea id="bulletText" rows="6" spellcheck="false" placeholder="例如：&#10;这款多少钱？&#10;刚进来，能再讲一下吗？&#10;什么时候发货？"></textarea>
+        <div class="editor-footer"><span><b id="lineCount">0</b> 条弹幕</span><div><button id="importButton" class="text-button">导入 TXT</button><button id="exportButton" class="text-button">导出</button><button id="sampleButton" class="text-button">填入示例</button></div></div>
+        <input type="file" id="importFile" accept=".txt,text/plain" hidden>
+        <div class="divider"></div>
+        <div class="interval-heading"><label for="interval">每隔多久出现一条？</label><div class="interval-input"><input type="number" id="intervalNumber" min="0.5" max="15" step="0.5" value="3" inputmode="decimal" aria-label="弹幕间隔秒数"><span>秒</span></div></div>
+        <input type="range" id="interval" min="0.5" max="15" step="0.5" value="3" aria-label="弹幕出现间隔"><div class="range-captions"><span>热闹一点</span><span>从容一点</span></div>
+        <div class="play-settings"><div><label for="order">播放顺序</label><select id="order"><option value="sequence">按我写的顺序</option><option value="random">随机打乱播放</option></select></div><label class="loop-label"><input id="loop" type="checkbox" checked><span>循环播放</span></label></div>
+        <details class="more-settings"><summary>昵称、自定义触发等更多设置</summary><p class="small-help">不写昵称时会自动生成。指定昵称可写：<br><code>小王 | 这款多少钱？</code></p><label for="triggerRules">听到关键词后，发出指定弹幕</label><textarea id="triggerRules" rows="3" spellcheck="false" placeholder="价格,多少钱 | 今天还有优惠吗？&#10;发货 | 大概几天能收到？"></textarea><p class="small-help">每行「关键词 | 弹幕」，多个关键词用逗号分开。</p><label for="scene">内置语音话术场景</label><select id="scene"><option value="digital">数码家电</option><option value="general">日常聊天</option><option value="beauty">美妆服饰</option><option value="gaming">游戏娱乐</option><option value="knowledge">知识分享</option></select><button id="voiceButton" class="secondary voice-button">开启语音触发</button><p id="voiceStatus" class="small-help" role="status">可选：使用离线中文识别，按关键词发来追问。</p><p id="transcript" class="transcript" hidden></p></details>
+        <p class="privacy-note"><span aria-hidden="true">◇</span> 弹幕只在你的设备里播放，不发送到真实直播间。</p>
+      </section>
+      <section class="preview card" aria-label="练播现场" id="preview">
+        <div class="section-heading"><div><span class="step">02 / 开口练练</span><h2>练播现场</h2></div><span id="playState" class="state-badge">准备好了</span></div>
+        <div class="preview-tools"><div class="view-switch" role="group" aria-label="弹幕显示方式"><button class="active" data-view="chat" aria-pressed="true">聊天列表</button><button data-view="float" aria-pressed="false">飘屏弹幕</button></div><div class="preview-actions"><button id="clearButton">清屏</button><button id="fullscreenButton" aria-label="全屏练播">⛶</button></div></div>
+        <div id="stage" class="stage paused"><div id="emptyStage" class="empty-stage"><div class="bubble-icon" aria-hidden="true">···</div><h3>这里，即将有你的观众。</h3><p>先写好弹幕，再点「开始练播」。<br>就当观众真的在和你聊天。</p><span class="empty-tag">模拟弹幕 · 放心练习</span></div><div id="messages" class="messages" role="log" aria-label="模拟观众弹幕" aria-live="off"></div><div id="floating" class="floating" hidden aria-label="飘屏弹幕"></div><div id="stageControls" class="stage-controls"><button id="stagePause">暂停</button><button id="stageExit">退出全屏</button></div></div>
+        <div class="preview-stats"><span><i></i> 本地模拟 · <span id="roundLabel">第 1 轮</span></span><span><b id="playedCount">0</b> 条 <em></em><b id="elapsed">00:00</b></span></div>
+        <div class="test-response"><label for="testText">也可以输入一句主播话术，测试关键词触发</label><form id="testForm"><input id="testText" autocomplete="off" placeholder="例如：今天给大家讲一下价格" maxlength="240"><button type="submit">试一下 ↗</button></form></div>
+      </section>
+    </main>
+    <footer class="page-footer">不必等到正式开播，现在就能练习。</footer>
+  </div>
+  <div class="play-dock"><div class="dock-inner"><button id="restartButton" class="dock-secondary" aria-label="从第一条重新播放">↺ <span>重来</span></button><button id="playButton" class="primary"><span class="play-icon">▶</span><span id="playLabel">开始练播</span></button><button id="nextButton" class="dock-secondary">下一条 <span>→</span></button></div></div>
+  <div class="toast" id="toast" role="status" hidden></div>
+  <dialog id="offlineDialog"><div class="dialog-heading"><h2>把练播房留在手机里</h2><button id="closeOffline" aria-label="关闭">×</button></div><p id="offlineDescription">首次联网打开后，保存页面资源，之后可以离线练习自定义弹幕。</p><button id="cacheButton" class="primary">保存离线资源</button><p id="cacheStatus" class="small-help" role="status"></p><div class="install-help"><b>添加到手机桌面</b><p>iPhone：在 Safari 的分享菜单中，选择「添加到主屏幕」。<br>安卓：在 Chrome 菜单中，选择「添加到主屏幕」或「安装应用」。</p></div><button id="installButton" class="secondary" hidden>添加到桌面</button><p class="small-help">保持页面在前台练播。浏览器清理缓存后，需要重新保存；语音模型需单独准备。</p></dialog>
+  <script src="core.js"></script><script src="engine.js"></script><script src="app.js"></script>
+</body></html>
