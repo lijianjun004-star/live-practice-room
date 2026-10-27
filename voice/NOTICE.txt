@@ -1,4 +1,4 @@
 Vosk Browser 0.0.8 — Apache-2.0
 Source: https://github.com/ccoreilly/vosk-browser
-Modified for Tiny Live Practice: preserve string errors; keep the WebAssembly filesystem in memory. Model archives persist in browser CacheStorage.
-Chinese model: vosk-model-small-cn-0.22, Apache-2.0.
+Modified for Tiny Live Practice: preserve string errors; keep WebAssembly filesystem in memory (model archives persist in browser CacheStorage instead of worker IndexedDB).
+Chinese model: vosk-model-small-cn-0.22, Apache-2.0, https://alphacephei.com/vosk/models

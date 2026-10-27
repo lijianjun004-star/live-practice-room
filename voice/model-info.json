@@ -1,0 +1,9 @@
+{
+  "model": "vosk-model-small-cn-0.22",
+  "source": "https://alphacephei.com/vosk/models",
+  "format": "tar.gz",
+  "size": 43847018,
+  "sha256": "ea1bfd4aebbe1bff20ec665c566bf4f2862e9e6cbfbb6d36dfb3357ebe1ef689",
+  "parts": 11,
+  "part_max_bytes": 4194304
+}
